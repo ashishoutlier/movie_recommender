@@ -26,11 +26,18 @@ def recommend(movie):
 
 st.header('Movie Recommender System')
 movies = pickle.load(open('movie_list.pkl','rb'))
-import gzip
-import pickle
+import gdown, gzip, pickle, os
 
-with gzip.open('model/similarity_compressed.pkl.gz', 'rb') as f:
+url = "https://drive.google.com/drive/folders/1X3EGxOga9wx8SOoFNg5Go30QRBR6z_Ki?usp=sharing"   # replace YOUR_FILE_ID
+path = "model/similarity_compressed.pkl.gz"
+
+if not os.path.exists(path):
+    with st.spinner("Downloading model files..."):
+        gdown.download(url, path, quiet=False)
+
+with gzip.open(path, "rb") as f:
     similarity = pickle.load(f)
+
 
 movie_list = movies['title'].values
 selected_movie = st.selectbox(
@@ -58,6 +65,7 @@ if st.button('Show Recommendation'):
     with col5:
         st.text(recommended_movie_names[4])
         st.image(recommended_movie_posters[4])
+
 
 
 
