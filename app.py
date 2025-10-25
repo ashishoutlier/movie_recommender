@@ -55,6 +55,12 @@ if st.button('Show Recommendation'):
         st.text(recommended_movie_names[4])
         st.image(recommended_movie_posters[4])
 
+import gzip
+import pickle
+
+with gzip.open('model/similarity_compressed.pkl.gz', 'rb') as f:
+    similarity = pickle.load(f)
+
 
 
 
